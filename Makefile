@@ -183,6 +183,9 @@ MK_CFLAGS    = -std=c11   -fPIC
 MK_CXXFLAGS  = -std=c++11 -fPIC
 MK_NVCCFLAGS = -std=c++11
 
+# 确保在编译时包含这些头文件路径
+override CPPFLAGS := $(MK_CPPFLAGS) $(CPPFLAGS)
+
 ifndef WHISPER_NO_CCACHE
 CCACHE := $(shell which ccache)
 ifdef CCACHE
@@ -794,7 +797,9 @@ OBJ_WHISPER += \
 OBJ_COMMON += \
 	examples/common.o \
 	examples/common-ggml.o \
-	examples/grammar-parser.o
+	examples/grammar-parser.o \
+    examples/miniaudio.o \
+    examples/stb_vorbis.o
 
 OBJ_SDL += \
 	examples/common-sdl.o
@@ -973,6 +978,13 @@ $(LIB_WHISPER): \
 $(LIB_WHISPER_S): \
 	$(OBJ_WHISPER)
 	ar rcs $(LIB_WHISPER_S) $^
+
+# miniaudio和stb_vorbis
+examples/miniaudio.o: examples/miniaudio.c examples/miniaudio.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+examples/stb_vorbis.o: examples/stb_vorbis.c examples/stb_vorbis.h
+	$(CXX) $(CXXFLAGS)-c $< -o $@
 
 # common
 

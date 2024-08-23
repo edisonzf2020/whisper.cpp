@@ -50,6 +50,12 @@ if (WHISPER_FFMPEG)
     set(COMMON_SOURCES_FFMPEG ffmpeg-transcode.cpp)
 endif()
 
+# Add miniaudio library
+add_library(miniaudio STATIC IMPORTED)
+set_target_properties(miniaudio PROPERTIES
+    IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/miniaudio.c"
+    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}"
+)
 
 add_library(${TARGET} STATIC
     common.h
@@ -58,12 +64,16 @@ add_library(${TARGET} STATIC
     common-ggml.cpp
     grammar-parser.h
     grammar-parser.cpp
+    miniaudio.c
+    miniaudio.h
+    stb_vorbis.c
+    stb_vorbis.h
     ${COMMON_SOURCES_FFMPEG}
     )
 
 include(DefaultTargetOptions)
 
-target_link_libraries(${TARGET} PRIVATE whisper ${COMMON_EXTRA_LIBS})
+target_link_libraries(${TARGET} PRIVATE whisper ${COMMON_EXTRA_LIBS} miniaudio)
 
 set_target_properties(${TARGET} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 set_target_properties(${TARGET} PROPERTIES FOLDER "libs")

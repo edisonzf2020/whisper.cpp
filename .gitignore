@@ -12,6 +12,8 @@
 build/
 build-*/
 
+samples/
+
 # SPM
 .build/
 .swiftpm
