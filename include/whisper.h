@@ -2,6 +2,9 @@
 #define WHISPER_H
 
 #include "ggml.h"
+#include "ggml-backend.h"
+#include "ggml-alloc.h"
+#include "ggml-metal.h"
 
 #include <stddef.h>
 #include <stdint.h>

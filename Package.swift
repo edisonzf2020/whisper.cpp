@@ -20,9 +20,7 @@ let package = Package(
             exclude: [
                "bindings",
                "cmake",
-               "coreml",
                "examples",
-               "extra",
                "models",
                "samples",
                "tests",
@@ -38,7 +36,7 @@ let package = Package(
                 "ggml/src/ggml-quants.c",
                 "ggml/src/ggml-metal.m"
             ],
-            resources: [.process("ggml-metal.metal")],
+            resources: [.process("ggml/src/ggml-metal.metal")],
             publicHeadersPath: "spm-headers",
             cSettings: [
                 .unsafeFlags(["-Wno-shorten-64-to-32", "-O3", "-DNDEBUG"]),
